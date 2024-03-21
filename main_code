@@ -1,47 +1,36 @@
 #caesar_cipher    ----> Supriyo Das
 
-alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+def caesar(message, shift, direction):
+    alphabets = 'abcdefghijklmnopqrstuvwxyz'
+    output_message = ""
+    for char in message:
+        if char in alphabets:
+            index = alphabets.index(char)
+            if direction == "encode":
+                position = (index + shift) % 26
+            elif direction == "decode":
+                position = (index - shift) % 26
+            output_message += alphabets[position]
+        else:
+            output_message += char
+    return output_message
 
+def main():
+    while True:
+        direction = input("Type 'encode' to encrypt, type 'decode' to decrypt: ").lower()
+        message = input("Type your message: ").lower()
+        shift = int(input("Type the shift number: "))
 
-loop = False
+        shift = shift % 26  # Ensure shift is within 0-25 range
 
-while loop == False:
+        encrypted_message = caesar(message, shift, direction)
+        print(f"The {direction}d text is: {encrypted_message}")
 
-    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt: \n ")
-    message = input("Type or message \n").lower()
-    shift = int(input("Type the shift Number: \n"))
+        to_continue = input("Type 'yes' if you want to go again. Otherwise, type 'no': ").lower()
 
-    shift = shift % 25
+        if to_continue != 'yes':
+            print("Goodbye!")
+            break
 
-    def caesar(message,shift,direction):
-        output_message = ""                            #output message
-        for letter in range(0,len(message)):
-            if message[letter] in alphabets:
-                index = []                                         #it will have the index values of the message as per alphabet list
-                index.append(alphabets.index(message[letter]))
-                if direction == "encode":
-                    for position in index:
-                        position += shift
-                        output_message += alphabets[position]         #here shift value gets added to the index value to make the message encrpt
-                else:
-                    for position in index:
-                        position -= shift
-                        output_message += alphabets[position]         #here shift value gets subtracted to the index value to make the message encrpt
-            else:
-                output_message += message[letter]
-        print(f"The {direction}d text is {output_message}.")
-    caesar(message,shift,direction)
-
-    to_continue = input("Type 'Yes' if you want to go again. otherwise 'no' \n").lower()
-
-    if to_continue == 'yes':
-        loop = False
-        caesar(message,shift,direction)
-    else:
-        loop = True
-        print("GoodBye!")   
-
-    
+if __name__ == "__main__":
+    main()
